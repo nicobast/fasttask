@@ -9,4 +9,4 @@ during the task with a Tobii X30.
 
 #project contains two two files:
 1. BastBoxhoorn2020_fasttask_data_processing.R - data preprocessing according to established standards - see in script commenting
-2. BastBoxhoorn2020_fasttask_data_analysis.Rmd - data analysis as R markdown 
+2. BastBoxhoorn2020_fasttask_data_analysis.Rmd - data analysis as R markdown - outputs all results including tables and figures
