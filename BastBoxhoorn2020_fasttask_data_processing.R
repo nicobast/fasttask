@@ -1,7 +1,8 @@
-# -------- FAST TASK ANALYSIS ------- #
+# -------- FAST TASK DATA PRE-PROCESSING ------- #
 # from MIND data - data is provided upon reasonable request: nico.bast@kgu.de
   
-  #info four-choice reaction time task with slow-baseline and fast-incentive condition
+  #data information: four-choice reaction time task with slow-baseline and fast-incentive condition.
+  #data type: raw data stream as provided by Tobii X30 including pupil dilation data
 
 # 0. SETUP - required packages ####
  #data processing
@@ -20,12 +21,12 @@ require(emmeans) #post hoc testing in LMM
 
 # A. READ DATA ####
 ## - GET data paths ####
-setwd('C:/Users/Nico/PowerFolders/Supervision_SaraMIND/all data/sboxhoorn/')
+setwd('C:/Users/Nico/PowerFolders/Supervision_SaraMIND/all data/sboxhoorn/') #CHANGE ACCORDINGLY
 data.files<-list.files(path=getwd(), full.names=TRUE,recursive=T) #lsit all data within folders/subfolders
 data_ft<-data.files[grep('FastTask/log',data.files)] #retreieve fast task paths
 
 ## - GET participant IDs ####
-## --> read the first 5 lines from all the WM textfiles to extract patient ids braingaze 
+## --> read the first 5 lines from all the WM textfiles to extract patient BRAINGAZE IDs 
 function_read_id<-function(x){
   k<-readLines(con=x, '5')
   pt.id<-k[grep('PatientId:',k)]
@@ -55,11 +56,11 @@ time.taken # 1.2 min for 105 datasets
 names(list_data)<-names #save patient IDs to loaded data
 
 # B. CREATE ESSENTIAL VARIABLES --> FORMAT LIST OF DATA TO MAIN DATA FRAME ####
-## - EXCLUDE participants without patient IDs (mainly test data) ####
+## - EXCLUDE participants without patient IDs (i.e. test data) ####
 list_data<-list_data[-which(names(list_data)=='character(0)'|names(list_data)=='00000000-0000-0000-0000-000000000000')]
 #29.08.19:: --> n=99 patient data
 
-## - EXCLUDE participants with more than one session ####
+## - EXCLUDE participants with more than one session (in case testing was restarted) ####
 duplicated_ids<-names(list_data)[duplicated(names(list_data))]
 duplicated_ids
 #case 1: "4a7ed1c6-237d-4e56-9bb0-3872f18408d0" #--> restarted session, exclude the one with few entries
@@ -321,7 +322,6 @@ df_split<-lapply(df_split,function(x){x[order(x$ts.trial),]}) #order by ts.trial
   mean_timestamp_diff<-round(sapply(df_split,function(x){mean(diff(x$timestamp),na.rm=T)}))/1000
   hist(mean_timestamp_diff[which(mean_timestamp_diff>0 & mean_timestamp_diff<70)],100,xlab='mean timestamp difference (ms)')
  
-require(zoo)   
 func_PD_basicpreprocessing<-function(x){
 #define variables
 Left_Diameter<-x$leftEyePupilSize
