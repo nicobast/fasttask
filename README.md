@@ -7,6 +7,7 @@ during the task with a Tobii X30.
 - Data are available upon request from the primary author (nico.bast@kgu.de)
 - Data processing requires R 3.6 or higher. Required packages are outlined within scripts
 
-#project contains two two files:
+#project contains three files:
 1. BastBoxhoorn2020_fasttask_data_processing.R - data preprocessing according to established standards - see in script commenting
 2. BastBoxhoorn2020_fasttask_data_analysis.Rmd - data analysis as R markdown - outputs all results including tables and figures
+3. BastBoxhoorn2020_fasttask_power_simulation.R - power simulation based on observed random effect variance
