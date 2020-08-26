@@ -117,6 +117,11 @@ levels(df_trial$typeGame)<-c('low-utility','high-utility')
       summary(power.lmm)
       VarCorr(power.lmm) #random effect variance
       fixef(power.lmm)
+      
+      #simulation 1
+      fixef(power.lmm)["groupASDno_ASD"]<-0.15 #define effect size to be tested
+      
+      #simulation 2 (rerun model estimation before defining effect to reset observed fixed effects)
       fixef(power.lmm)["typeGamehigh-utility:groupASDno_ASD"]<-0.15 #define effect size to be tested
       
 #-->SIMULATE POWER #### 
