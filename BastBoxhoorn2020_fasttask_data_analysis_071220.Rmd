@@ -1,41 +1,44 @@
 ---
-title             : "Altered Locus Coeruleus Activity during Reaction Time Performance in Autism"
-shorttitle        : ""
-author: 
-  - name          : "Nico Bast"
-    affiliation   : "1"
-    corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
-    email         : "nico.bast@kgu.com"
-  - name          : "Sara Boxhoorn"
-    affiliation   : "1"
+title: "Altered Locus Coeruleus Activity during Reaction Time Performance in Autism"
+author:
+- address: Postal address
+  affiliation: '1'
+  corresponding: yes
+  email: nico.bast@kgu.com
+  name: Nico Bast
+- affiliation: '1'
+  name: Sara Boxhoorn
 affiliation:
-  - id            : "1"
-    institution   : "Department of Child and Adolescent Psychiatry, Goethe University Frankfurt"
-authornote: |
-  Department of Child and Adolescent Psychiatry, Psychosomatics and Psychotherapy, Autism Research and Intervention Center of Excellence, University Hospital Frankfurt, Goethe-University, 60528 Frankfurt am Main, Germany 
+- id: '1'
+  institution: Department of Child and Adolescent Psychiatry, Goethe University Frankfurt
+output:
+  pdf_apa6: papaja::apa6_pdf
+  pdf_document: default
+  html_document: default
+  word_document: default
+bibliography: r-references.bib
+classoption: man
+documentclass: apa6
+draft: no
+figurelist: yes
+floatsintext: no
+fontsize: 10pt
+footnotelist: no
+keywords: keywords
+linenumbers: no
+mask: no
+authornote: "Department of Child and Adolescent Psychiatry, Psychosomatics and Psychotherapy,
+  Autism Research and Intervention Center of Excellence, University Hospital Frankfurt,
+  Goethe-University, 60528 Frankfurt am Main, Germany \n"
+shorttitle: ''
+tablelist: yes
 abstract: |
   Background: Atypical arousal regulation may explain slower mean reaction times (MRT) in specific tasks in Autism Spectrum Disorder (ASD) and Attention-Deficit/Hyperactivity Disorder (ADHD) compared to typically developing controls (TD). The Locus Coeruleus–Norepinephrine system (LC-NE) underlies arousal regulation and adapts its activity to the utility of a task. LC-NE tonic and phasic activity are indexed by baseline pupil size (BPS) and stimulus-evoked pupillary response (SEPR).Methods: The study assessed pupillometry in ASD (n=31, 3F/28M), ADHD (n=28, 3F/25M) and TD (n=31, 16F/15M) during a visuospatial reaction time task that manipulates arousal by conditions with low and high task utility. We estimated linear-mixed models of BPS, SEPR and MRT in a per-trial analysis to investigate arousal regulation of task performance.Results: Slower MRT occurred in ASD compared to TD during low utility, while controlling for dimensional ASD and ADHD symptoms. Regarding low utility, BPS and SEPR were inversely related and both associated with faster MRT. Higher ASD symptoms across groups were associated with higher BPS during low utility. Changes in BPS and SEPR between task utility conditions were smaller in the ASD group.Conclusions: Slower visuospatial task performance in ASD is specific to low task utility. Arousal was associated with task performance and showed altered activity in ASD. Increased BPS during low utility suggested increased LC-NE tonic activity as a transdiagnostic ASD symptom marker in children. Smaller BPS and SEPR changes in ASD indicated attenuated LC-NE activity adaptation in response to high utility. Slower performance and atypical arousal regulation are probably associated with attenuated LC-NE activity adaptation.
- 
   <!-- https://tinyurl.com/ybremelq -->
-keywords          : "keywords"
-wordcount         : "X"
-bibliography      : ["r-references.bib"]
-fontsize: 10pt
-floatsintext      : no
-figurelist        : yes
-tablelist         : yes
-footnotelist      : no
-linenumbers       : no
-mask              : no
-draft             : no
-documentclass     : "apa6"
-classoption       : "man"
-output            : 
-    pdf_apa6: papaja::apa6_pdf
-    html_document: default
-    word_document: default
+wordcount: X
 ---
+
+# SETUP
 
 ```{r setup, message=F}
 
@@ -46,7 +49,6 @@ output            :
 #after installation, check whether 'tinytex:::is_tinytex()' returns TRUE
 
 #PAPAJA is not on CRAN. Devtools (R package) is required to install papaja: devtools::install_github("crsh/papaja")
-
 
 suppressWarnings({
 suppressMessages({
@@ -61,10 +63,11 @@ require(grid) #textGrob
 #require(sjPlot) #plot.mdoel
 require(ggpubr) #significant signs in figures
 require(sjPlot) #plot_mdoel
-  
+#require(knitr) #inlcude_graphics
+#require(tiff)
+    
 })
 })
-
 
 ###define number of models for n in Bonferroni correction 
 number_of_models<-5
@@ -75,6 +78,8 @@ number_of_models<-5
 # Seed for random number generation
 #set.seed(42)
 #knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+
+options(figure_counter = 3)
 
 knitr::opts_chunk$set(cache = T)
 knitr::opts_chunk$set(echo = F) #for word knit
@@ -90,9 +95,12 @@ ifelse(Sys.info()['sysname']=='Linux',
        home_path<-'C:/Users/Nico')
 
 
-setwd(paste(home_path,'/PowerFolders/Paper_MINDdata_fasttask',sep=''))
-#load('df_021019.Rdata')
-load('df_261020.Rdata')
+setwd(paste(home_path,'/PowerFolders/Paper_MINDdata_fasttask',sep='')) #if code chunk is executed directly
+knitr::opts_knit$set(root.dir = paste(home_path,'/PowerFolders/Paper_MINDdata_fasttask',sep='')) #if chunk is executed as markdown
+
+#load('data/df_261020.Rdata')
+load('data/df_280121.Rdata')
+
 ###--> for data preprocessing see fast_task_data_processing.R
 
 ##--> data information:
@@ -195,6 +203,28 @@ df_trial<-merge(df_trial,df_merge_quest,by='id.label')
 
 ```
 
+(ref:figure-caption-1) placeholder figure 1
+
+```{r print_placeholder_figure_1, echo=FALSE, fig.cap="(ref:figure-caption-1)"}
+
+#grid.raster(readTIFF("C:/Users/Nico/PowerFolders/Paper_MINDdata_fasttask/output/figures/figure1_LCNE.tiff"))
+#include_graphics("C:/Users/Nico/PowerFolders/Paper_MINDdata_fasttask/output/figures/figure1_LCNE.tiff")
+#--> is not able to print tiff
+
+ggplot()
+
+```
+
+(ref:figure-caption-2) placeholder figure 2
+
+```{r print_placeholder_figure_2, echo=FALSE, fig.cap="(ref:figure-caption-2)"}
+
+ggplot()
+
+```
+
+
+
 # Methods
 ## Data analysis
 We used `r cite_r("r-references.bib")` for all our analyses.
@@ -238,6 +268,9 @@ fsk<-paste(fsk_m,fsk_sd,sep='/')
 srs<-paste(srs_m,srs_sd,sep='/')
 inatt<-paste(inatt_m,inatt_sd,sep='/')
 hyp<-paste(hyp_m,hyp_sd,sep='/')
+
+#ADOS ADI data (ASD only) --> send to suppluments
+
 
 #concatenate data to one df
 sample_describe_data<-data.frame(rbind(n_obs,age,vIQ,pIQ,gender_ratio,cbcl,fsk,srs,inatt,hyp))
@@ -338,6 +371,23 @@ validpd_m<-as.numeric(by(valid_pd,group3,function(x){round(mean(x)*100,2)}))
 validpd_sd<-as.numeric(by(valid_pd,group3,function(x){round(sd(x)*100,2)}))  
 validpd<-paste(validpd_m,validpd_sd,sep='/')
 
+#analyzed trials by group (%) -added 25.01.21
+number_of_trials_low<-as.numeric(with(df_trial[df_trial$typeGame=='low-utility',],by(currentTrial,id.label,function(x){length(unique(x))})))
+number_of_trials_high<-as.numeric(with(df_trial[df_trial$typeGame=='high-utility',],by(currentTrial,id.label,function(x){length(unique(x))})))
+
+analyzed_trials_in_LOW<-with(df_trial,by(currentTrial,typeGame,function(x){length(unique(x))}))[1]
+analyzed_trials_in_HIGH<-with(df_trial,by(currentTrial,typeGame,function(x){length(unique(x))}))[2]
+
+number_of_trials_low<-number_of_trials_low/analyzed_trials_in_LOW*100
+number_of_trials_high<-number_of_trials_high/analyzed_trials_in_HIGH*100
+
+trials_LOW_m<-with(df_describe,as.numeric(by(number_of_trials_low,group3,function(x){round(mean(x,na.rm=T),2)})))
+trials_HIGH_m<-with(df_describe,as.numeric(by(number_of_trials_high,group3,function(x){round(mean(x,na.rm=T),2)})))
+trials_LOW_sd<-with(df_describe,as.numeric(by(number_of_trials_low,group3,function(x){round(sd(x,na.rm=T),2)})))
+trials_HIGH_sd<-with(df_describe,as.numeric(by(number_of_trials_high,group3,function(x){round(sd(x,na.rm=T),2)})))
+
+ntrials_low<-paste(trials_LOW_m,trials_LOW_sd,sep='/')
+ntrials_high<-paste(trials_HIGH_m,trials_HIGH_sd,sep='/')
 
 #scale pd data
 rpd_fore_perID_lowUT<-as.numeric(with(df_trial[df_trial$typeGame=='low-utility',],by(rpd_fore,id.label,mean,na.rm=T)))
@@ -384,13 +434,15 @@ rt_high<-paste(rt_HIGH_m,rt_HIGH_sd,sep='/')
 
 detach(df_describe)
 
-dependent_var_data<-data.frame(rbind(taskdur,hits,validrt,validpd,
+dependent_var_data<-data.frame(rbind(taskdur,hits,validrt,validpd,ntrials_low,ntrials_high,
                                      baseline_low,baseline_high,sepr_low,sepr_high,rt_low,rt_high))
 
 # TukeyHSD(with(df_describe,aov(task_duration~group3)))
 # TukeyHSD(with(df_describe,aov(hits_id~group3)))
 # TukeyHSD(with(df_describe,aov(valid_rt~group3)))
 # TukeyHSD(with(df_describe,aov(valid_pd~group3)))
+#TukeyHSD(with(df_describe,aov(number_of_trials_low~group3)))
+#TukeyHSD(with(df_describe,aov(number_of_trials_high~group3)))
 # TukeyHSD(with(df_describe,aov(rpd_fore_perID_lowUT~group3)))
 # TukeyHSD(with(df_describe,aov(rpd_fore_perID_highUT~group3)))
 # TukeyHSD(with(df_describe,aov(rpd_phasic_perID_lowUT~group3)))
@@ -402,6 +454,8 @@ dependent_var_data<-data.frame(rbind(taskdur,hits,validrt,validpd,
                        'ASD > ADHD', #correct response /hits
                        'ASD > ADHD', #valid reaction time
                        '-', #valid pd data after preprocessing (data retention)
+                       '-', #n trials low
+                       '-', #n trials high
                        '-', #baseline low
                        '-', #baseline high
                        '-', #phasic low
@@ -415,6 +469,7 @@ names(dependent_var_data)<-c('ADHD','ASD','TD')
 
 ```{r task_descriptives_table,  results='asis'}
 row_labels<-c('Task duration (in min)','Correct trials (%)','Valid reaction time (%)','PD data retention (%)',
+              'Analyzed trials - low utility (%)','Analyzed trials - high utility (%)',
               'BPS - low utility (z)','BPS - high utility (z)','SEPR - low utility (z)','SEPR - high utility (z)',
               'Reaction time - low utility (ms)','Reaction time - high utility (ms)'
               )
@@ -428,7 +483,7 @@ apa_table(dependent_var_data,
           #landscape = T,
           caption = 'Task description.',
           col.names=c('','ASD','ADHD','TD','Group differences'),
-          note = "Correct trials = percentage of correct responses (hits), valid reaction time = percentage of trials with reaction time  between 200-1500ms, PD data retention = percentage of retained pupil dilation data after preprocessing relative to possible raw data, BPS = baseline pupil size, SEPR = stimulus-evoked pupillary response. z = standardized to grand mean across conditions and groups. BPS and SEPR variables are scaled and are relative to the grand average across conditions and groups. Group differences are calculated descriptively by Tukey HSD."  
+          note = "Correct trials = percentage of correct responses (hits), valid reaction time = percentage of trials with reaction time  between 200-1500ms, PD data retention = percentage of retained pupil dilation data after preprocessing relative to possible raw data, analyzed trials = percentage of trials considered in the analysis relative to the number of trials in the task, BPS = baseline pupil size, SEPR = stimulus-evoked pupillary response. z = standardized to grand mean across conditions and groups. BPS and SEPR variables are scaled and are relative to the grand average across conditions and groups. Group differences are calculated descriptively by Tukey HSD."  
 )
 ```
 
@@ -470,7 +525,7 @@ g_legend<-function(x){
 
 mylegend<-g_legend(g1)
 
-path_figure3 <- paste(getwd(),'/figures/figure3_DV_distribution.tiff',sep='')
+path_figure3 <- paste(getwd(),'/output/figures/figure3_DV_distribution.tiff',sep='')
 
 tiff(filename = path_figure3,
      width = 11, height = 7, units = "in", pointsize = 12, res=300, compression="lzw")
@@ -486,9 +541,9 @@ suppressMessages(dev.off())
 
 ```
 
-(ref:figure-caption-2) Gaussian density distribution of the main dependent variables BPS, SEPR, MRT.
+(ref:figure-caption-3) Gaussian density distribution of the main dependent variables BPS, SEPR, MRT.
 
-```{r plot_figure2_DV_distribution, echo=FALSE, fig.width=10, fig.height=8, fig.cap="(ref:figure-caption-2)"}
+```{r plot_figure2_DV_distribution, echo=FALSE, fig.width=10, fig.height=8, fig.cap="(ref:figure-caption-3)"}
 grid.arrange(g1,g2,g3,nrow=3)
 
 ```
@@ -517,37 +572,84 @@ lmm_trial<-lmer(scale(rt_m)~group3*typeGame+
 
 #figure RT
 lmm_contrast_data<-data.frame(plot(posthoc)[[1]])
-g4<-ggplot(lmm_contrast_data,aes(x=interaction(group3,typeGame)))+
-  geom_errorbar(aes(ymin=asymp.LCL,ymax=asymp.UCL),width=0.2)+  #add conventional error bars
-  geom_boxplot(aes(fill=group3,
-                   middle=the.emmean,
-                   lower=the.emmean-1.5*SE,
-                   upper=the.emmean+1.5*SE,
-                   ymin=asymp.LCL,
-                   ymax=asymp.UCL),stat = "identity")+
-  scale_x_discrete(labels=c('ADHD','ASD','TD','ADHD','ASD','TD'))+
-  geom_text(aes(label = 'low-utility condition', x = 2, y = min(asymp.LCL)-0.2))+ 
-  geom_text(aes(label = 'high-utility condition', x = 5, y = min(asymp.LCL)-0.2))+
-  xlab('')+ylab('mean reaction time (z)')+
-  scale_fill_brewer(palette = "Pastel1")+ #change color palette
-  geom_signif(stat="identity", #add significance comaprison in figure
-              data=data.frame(x=c(2,2,3), xend=c(3,2,3), y=c(1.5,1.5,1.5), yend=c(1.5,1.4,1.4), annotation=c("*")),
-              aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
-  geom_signif(stat="identity", #add significance comaprison in figure
-              data=data.frame(x=c(2,2,5), xend=c(5,2,5), y=c(2,2,2), yend=c(2,1.9,1.9), annotation=c("*")),
-              aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
-  geom_signif(stat="identity", #add significance comaprison in figure
-              data=data.frame(x=c(1,1,3), xend=c(3,1,3), y=c(1.9,1.9,1.9), yend=c(1.9,1.8,1.8), annotation=""),
-              aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
-  geom_signif(stat="identity", #add significance comaprison in figure
-              data=data.frame(x=c(4,4,6), xend=c(6,4,6), y=c(1.9,1.9,1.9), yend=c(1.9,1.8,1.8), annotation=""),
-              aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
-  
-  ylim(-1.2,2.2)+
-  theme_bw()+
-  theme(legend.position = "none") #remove legend
 
-  path_figure4 <- paste(getwd(),'/figures/figure4_RT_groups.tiff',sep='')
+#predicted values
+  predicted_RT<-predict(lmm_trial)
+  predicted_RT_mean<-as.numeric(with(df_trial,by(predicted_RT,interaction(id.label,typeGame),mean)))
+  predicted_RT_group<-as.factor(with(df_trial,by(group3,interaction(id.label,typeGame),head,n=1)))
+  predicted_RT_typeGame<-as.factor(with(df_trial,by(typeGame,interaction(id.label,typeGame),head,n=1)))
+  levels(predicted_RT_typeGame)<-c('low-utility','high-utility')
+  levels(predicted_RT_group)<-c('ADHD','ASD','TD')
+  df_plot_predicted_RT<-data.frame(predicted_RT_group,predicted_RT_typeGame,predicted_RT_mean)
+
+  g4<-ggplot(lmm_contrast_data,aes(x=interaction(group3,typeGame)))+
+    geom_jitter(data=df_plot_predicted_RT,
+                aes(x=interaction(predicted_RT_group,predicted_RT_typeGame),
+                    y=predicted_RT_mean,color=predicted_RT_group),alpha=0.8,width =0.25)+ #overplot predicted values
+    
+    geom_errorbar(aes(ymin=asymp.LCL,ymax=asymp.UCL),width=0.2)+  #add conventional error bars
+    
+    geom_boxplot(aes(fill=group3,
+                     middle=the.emmean,
+                     lower=the.emmean-1.5*SE,
+                     upper=the.emmean+1.5*SE,
+                     ymin=asymp.LCL,
+                     ymax=asymp.UCL),stat = "identity",alpha=0.7)+
+    scale_x_discrete(labels=c('ADHD','ASD','TD','ADHD','ASD','TD'))+
+    geom_text(aes(label = 'low-utility condition', x = 2, y = min(asymp.LCL)-0.3))+
+    geom_text(aes(label = 'high-utility condition', x = 5, y = min(asymp.LCL)-0.3))+
+    xlab('')+ylab('mean reaction time (z)')+
+    geom_signif(stat="identity", #add significance comaprison in figure
+                data=data.frame(x=c(2,2,3), xend=c(3,2,3), y=c(1.6,1.6,1.6), yend=c(1.6,1.5,1.5), annotation=c("*")),
+                aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
+    geom_signif(stat="identity", #add significance comaprison in figure
+                data=data.frame(x=c(2,2,5), xend=c(5,2,5), y=c(2.1,2.1,2.1), yend=c(2.1,2,2), annotation=c("*")),
+                aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
+    geom_signif(stat="identity", #add significance comaprison in figure
+                data=data.frame(x=c(1,1,3), xend=c(3,1,3), y=c(2,2,2), yend=c(2,1.9,1.9), annotation=""),
+                aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
+    geom_signif(stat="identity", #add significance comaprison in figure
+                data=data.frame(x=c(4,4,6), xend=c(6,4,6), y=c(2,2,2), yend=c(2,1.9,1.9), annotation=""),
+                aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation))+
+    ylim(-1.2,2.5)+
+    theme_bw()+
+    theme(legend.position = "none") #remove legend
+
+ g4<-set_palette(g4,palette = "Pastel1")
+
+# g4<-ggplot(lmm_contrast_data,aes(x=interaction(group3,typeGame)))+
+#     geom_jitter(data=df_trial,aes(x=interaction(group3,typeGame),y=scale(rt_m),color=group3),
+#                 alpha=0.15,height = 0.5)+ #overplot predicted values
+#     geom_errorbar(aes(ymin=asymp.LCL,ymax=asymp.UCL),width=0.2)+  #add conventional error bars
+#     geom_boxplot(aes(fill=group3,
+#                      middle=the.emmean,
+#                      lower=the.emmean-1.5*SE,
+#                      upper=the.emmean+1.5*SE,
+#                      ymin=asymp.LCL,
+#                      ymax=asymp.UCL),stat = "identity",alpha=0.7)+
+#     scale_x_discrete(labels=c('ADHD','ASD','TD','ADHD','ASD','TD'))+
+#     geom_text(aes(label = 'low-utility condition', x = 2, y = min(asymp.LCL)-0.5))+
+#     geom_text(aes(label = 'high-utility condition', x = 5, y = min(asymp.LCL)-0.5))+
+#     xlab('')+ylab('mean reaction time (z)')+
+#     geom_signif(stat="identity", #add significance comaprison in figure
+#                 data=data.frame(x=c(2,2,3), xend=c(3,2,3), y=c(1.5,1.5,1.5), yend=c(1.5,1.4,1.4), annotation=c("*")),
+#                 aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
+#     geom_signif(stat="identity", #add significance comaprison in figure
+#                 data=data.frame(x=c(2,2,5), xend=c(5,2,5), y=c(2,2,2), yend=c(2,1.9,1.9), annotation=c("*")),
+#                 aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
+#     geom_signif(stat="identity", #add significance comaprison in figure
+#                 data=data.frame(x=c(1,1,3), xend=c(3,1,3), y=c(1.9,1.9,1.9), yend=c(1.9,1.8,1.8), annotation=""),
+#                 aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
+#     geom_signif(stat="identity", #add significance comaprison in figure
+#                 data=data.frame(x=c(4,4,6), xend=c(6,4,6), y=c(1.9,1.9,1.9), yend=c(1.9,1.8,1.8), annotation=""),
+#                 aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation))+
+#     ylim(-1.5,2.5)+
+#     theme_bw()+
+#     theme(legend.position = "none") #remove legend
+# 
+#   g4<-set_palette(g4,palette = "Pastel1") #change color palette
+
+  path_figure4 <- paste(getwd(),'/output/figures/figure4_RT_groups.tiff',sep='')
   
   tiff(filename = path_figure4,
        width = 7, height = 3.5, units = "in", pointsize = 12, res=300, compression="lzw")
@@ -557,9 +659,9 @@ g4<-ggplot(lmm_contrast_data,aes(x=interaction(group3,typeGame)))+
   dev.off()
 ```
 
-(ref:figure-caption-3) Mean reaction time (MRT) between groups. Slower RT in ASD compared to TD is observed in the low-utility condition, while there is an effect of task condition with faster RT in the high-utility condition. Boxplot whiskers represent 95% confidence intervals. Interquartile range is estimated by marginalized means +/- 1.5 standard errors.
+(ref:figure-caption-4) Mean reaction time (MRT) between groups. Slower RT in ASD compared to TD is observed in the low-utility condition, while there is an effect of task condition with faster RT in the high-utility condition. Boxplot whiskers represent 95% confidence intervals. Interquartile range is estimated by marginalized means +/- 1.5 standard errors.
 
-```{r plot_figure2_PD, echo=FALSE, fig.width=7, fig.height=3.5, fig.cap="(ref:figure-caption-3)"}
+```{r plot_figure2_PD, echo=FALSE, fig.width=7, fig.height=3.5, fig.cap="(ref:figure-caption-4)"}
 
 g4
 
@@ -601,7 +703,7 @@ emtrends(rt_model,~typeGame,var='rpd_fore_z')
 
 ```{r calculate_figure3_RTbyPD}
 
-path_figure5 <- paste(getwd(),'/figures/figure5_arousal_regulation_of_reaction_time.tiff',sep='')
+path_figure5 <- paste(getwd(),'/output/figures/figure5_arousal_regulation_of_reaction_time.tiff',sep='')
 
 tiff(filename = path_figure5, 
      width = 7, height = 4, units = "in", pointsize = 12, res=300, compression="lzw")
@@ -623,9 +725,9 @@ dev.off()
 
 ```
 
-(ref:figure-caption-4) Mean Reaction time (MRT) by arousal measures (BPS, SEPR). Higher basleine pupil size (BPS) and Stimulus-evoked pupillary response (SEPR) are associated with faster reaction time specific to the low-utility task condition. Effects are controlled for the interdependence of BPS and SEPR. Shaded areas represent 95% confidence intervals.
+(ref:figure-caption-5) Mean Reaction time (MRT) by arousal measures (BPS, SEPR). Higher basleine pupil size (BPS) and Stimulus-evoked pupillary response (SEPR) are associated with faster reaction time specific to the low-utility task condition. Effects are controlled for the interdependence of BPS and SEPR. Shaded areas represent 95% confidence intervals.
 
-```{r plot_figure3_RTbyPD, echo=FALSE, fig.width=7, fig.height=4, fig.cap="(ref:figure-caption-4)"}
+```{r plot_figure3_RTbyPD, echo=FALSE, fig.width=7, fig.height=4, fig.cap="(ref:figure-caption-5)"}
 
 grid.arrange(g7,g8,layout_matrix= matrix(c(1,1,1,1,2,2,2,2,2),nrow=1,ncol=9))
 
@@ -725,20 +827,35 @@ data.frame(lapply(data.frame(confint(contrast(posthoc_rpd,method='revpairwise'))
 
 
 ```{r  calculate_change_arousal_figure5_and_save_to_file}
-path_figure6 <- paste(getwd(),'/figures/figure6_arousal_change_byGroup.tiff',sep='')
+path_figure6 <- paste(getwd(),'/output/figures/figure6_arousal_change_byGroup.tiff',sep='')
 
 tiff(filename = path_figure6, 
      width = 7, height = 3, units = "in", pointsize = 12, res=300, compression="lzw")
 
-lmm_contrast_data<-data.frame(plot(contrast(posthoc_tpd,method='revpairwise'))[[1]])
- g1<-ggplot(lmm_contrast_data,aes(x=group3))+
+
+  #tpd: calculate predicted values to overplot
+   predicted_tpd<-predict(lmm_tpd)
+   predicted_tpd_low<-as.numeric(with(df_trial[df_trial$typeGame=='low-utility',],
+                                      by(predicted_tpd[df_trial$typeGame=='low-utility' ],id.label,mean)))
+   predicted_tpd_high<-as.numeric(with(df_trial[df_trial$typeGame=='high-utility',],
+                                       by(predicted_tpd[df_trial$typeGame=='high-utility' ],id.label,mean)))
+
+   #contrast tpd data
+   lmm_contrast_data<-data.frame(plot(contrast(posthoc_tpd,method='revpairwise'))[[1]])
+ 
+   #prepare figure (tpd)
+   g1<-ggplot(lmm_contrast_data,aes(x=group3))+
+   geom_jitter(data=df_describe,
+                aes(x=group3,y=predicted_tpd_high-predicted_tpd_low,color=group3),
+                alpha=0.8,width =0.25,height=0.1)+ #overplot individual values
+   
    geom_errorbar(aes(ymin=asymp.LCL,ymax=asymp.UCL),width=0.2)+  #add conventional error bars
    geom_boxplot(aes(fill=group3,
                     middle=the.emmean,
                     lower=the.emmean-1.5*SE,
                     upper=the.emmean+1.5*SE,
                     ymin=asymp.LCL,
-                    ymax=asymp.UCL),stat = "identity")+
+                    ymax=asymp.UCL),stat = "identity",alpha=0.7)+
    geom_hline(yintercept=0,lty=2)+
    xlab('')+ylab('change in BPS (z)')+
    # geom_signif(stat="identity", #add significance comaprison in figure
@@ -748,40 +865,59 @@ lmm_contrast_data<-data.frame(plot(contrast(posthoc_tpd,method='revpairwise'))[[
                data=data.frame(x=c(2.1,2.1,3), xend=c(3,2.1,3), y=c(0.2,0.2,0.2), yend=c(0.2,0.175,0.175), annotation=c("*")),
                aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation)) +
    ylim(-0.5,0.3)+
-   scale_fill_brewer(palette = "Pastel1")+ #change color palette
+   #scale_fill_brewer(palette = "Pastel1")+ #change color palette
    theme_bw()+
    theme(legend.position = "none") #remove legend
+ 
+ g1<-set_palette(g1,palette = "Pastel1") #change color palette
 
-lmm_contrast_data<-data.frame(plot(contrast(posthoc_rpd,method='revpairwise'))[[1]])
-g2<-ggplot(lmm_contrast_data,aes(x=group3))+
-  geom_errorbar(aes(ymin=asymp.LCL,ymax=asymp.UCL),width=0.2)+  #add conventional error bars
-  geom_boxplot(aes(fill=group3,
-                   middle=the.emmean,
-                   lower=the.emmean-1.5*SE,
-                   upper=the.emmean+1.5*SE,
-                   ymin=asymp.LCL,
-                   ymax=asymp.UCL),stat = "identity")+
-  geom_hline(yintercept=0,lty=2)+
-  xlab('')+ylab('change in SEPR (z)')+
-  geom_signif(stat="identity", #add significance comaprison in figure
-          data=data.frame(x=c(1,1,1.9), xend=c(1.9,1,1.9), y=c(-0.2,-0.2,-0.2), yend=c(-0.2,-0.175,-0.175), annotation=c("*")),
-              aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation, vjust=2)) +
-  geom_signif(stat="identity", #add significance comaprison in figure
-          data=data.frame(x=c(2.1,2.1,3), xend=c(3,2.1,3), y=c(-0.2,-0.2,-0.2), yend=c(-0.2,-0.175,-0.175), annotation=c("*")),
-              aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation, vjust=2)) +
-  ylim(-0.5,0.3)+
-  scale_fill_brewer(palette = "Pastel1")+ #change color palette
-  theme_bw()+
-  theme(legend.position = "none") #remove legend
+
+ #rpd: calculate predicted values to overplot
+ predicted_rpd<-predict(lmm_rpd)
+ predicted_rpd_low<-as.numeric(with(df_trial[df_trial$typeGame=='low-utility',],
+                                    by(predicted_rpd[df_trial$typeGame=='low-utility' ],id.label,mean)))
+ predicted_rpd_high<-as.numeric(with(df_trial[df_trial$typeGame=='high-utility',],
+                                     by(predicted_rpd[df_trial$typeGame=='high-utility' ],id.label,mean)))
+ 
+ #contrast rpd data
+ lmm_contrast_data<-data.frame(plot(contrast(posthoc_rpd,method='revpairwise'))[[1]])
+
+ #rpd prepare figure
+ g2<-ggplot(lmm_contrast_data,aes(x=group3))+
+   geom_jitter(data=df_describe,
+               aes(x=group3,y=predicted_rpd_high-predicted_rpd_low,color=group3),
+               alpha=0.8,width =0.25,height=0.1)+ #overplot individual values
+   geom_errorbar(aes(ymin=asymp.LCL,ymax=asymp.UCL),width=0.2)+  #add conventional error bars
+   geom_boxplot(aes(fill=group3,
+                    middle=the.emmean,
+                    lower=the.emmean-1.5*SE,
+                    upper=the.emmean+1.5*SE,
+                    ymin=asymp.LCL,
+                    ymax=asymp.UCL),stat = "identity",alpha=0.7)+
+   geom_hline(yintercept=0,lty=2)+
+   xlab('')+ylab('change in SEPR (z)')+
+   geom_signif(stat="identity", #add significance comaprison in figure
+               data=data.frame(x=c(1,1,1.9), xend=c(1.9,1,1.9), 
+                               y=c(-0.2,-0.2,-0.2), yend=c(-0.2,-0.175,-0.175), annotation=c("*")),
+               aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation, vjust=2)) +
+   geom_signif(stat="identity", #add significance comaprison in figure
+               data=data.frame(x=c(2.1,2.1,3), xend=c(3,2.1,3), 
+                               y=c(-0.2,-0.2,-0.2), yend=c(-0.2,-0.175,-0.175), annotation=c("*")),
+               aes(x=x,xend=xend, y=y, yend=yend, annotation=annotation, vjust=2)) +
+   ylim(-0.5,0.3)+
+   theme_bw()+
+   theme(legend.position = "none") #remove legend
+ 
+ g2<-set_palette(g2,palette = "Pastel1") #change color palette
 
 grid.arrange(g1,g2,ncol=2)
 
 dev.off()
 ```
 
-(ref:figure-caption-5) Arousal Change from the low- to the high-utility condition. Boxplot whiskers represent 95% confidence intervals. Interquartile range is estimated by marginalized means +/- 1.5 standard errors.
+(ref:figure-caption-6) Arousal Change from the low- to the high-utility condition. Boxplot whiskers represent 95% confidence intervals. Interquartile range is estimated by marginalized means +/- 1.5 standard errors.
 
-```{r plot_figure3, fig.cap="(ref:figure-caption-5)", fig.height=3, fig.width=7}
+```{r plot_figure3, fig.cap="(ref:figure-caption-6)", fig.height=3, fig.width=7}
 
 grid.arrange(g1,g2,ncol=2)
   
@@ -873,7 +1009,121 @@ apa_table(lmm_arousal_aov,
 
 ```
 
-## Supplementary Tables
+## Supplements
+
+(ref:figure-caption-7) Within-trial effect in the stimulus phase: Pupil dilation after stimulus onset in the high-utility (blue) and the low-utility (red) condition. Vertical lines represent respective mean reaction time that is offset by +250ms. This offset represents the latency between LC-NE activity and pupillary response (see 24). The figure further illustrates that LC-NE phasic activity likely precedes behavioral performance.    
+
+```{r , fig.cap="(ref:figure-caption-7)", fig.height=4, fig.width=6}
+
+#pupil dilation change
+g1<-ggplot(df_valid[df_valid$strState=='stimuli' & df_valid$ts.trial<45,],aes(x=ts.trial/30*1000,y=rpd,group=typeGame,color=typeGame))+
+  geom_smooth(se=F)+stat_summary(fun.data = mean_se, geom = "errorbar")+
+  #labs(title='Pupil dilation after stimulus onset (stimulus phase)')+
+  xlab('time (in ms)')+
+  ylab('pupil dilation change')+
+  geom_vline(xintercept =
+               round(mean(as.numeric(with(df_trial[df_trial$typeGame=='low-utility',],
+                                          by(rt_m,id.label,mean,na.rm=T))),na.rm=T),2)+250,
+              color='#F8766D', lty=3, cex=1.5, alpha=0.8
+              )+
+  geom_vline(xintercept =
+               round(mean(as.numeric(with(df_trial[df_trial$typeGame=='high-utility',],
+                                          by(rt_m,id.label,mean,na.rm=T))),na.rm=T),2)+250,
+             color='#619CFF', lty=3, cex=1.5, alpha=0.8
+  )+
+  theme_bw()+
+  theme(legend.position="none")
+
+g1
+
+```
+
+(ref:figure-caption-8) Within condition change across trials of the main dependent variables: baseline pupil size (BPS), stimulus-evoked pupillary response (SEPR), mean reation time (MRT).  
+
+```{r , fig.cap="(ref:figure-caption-8)", fig.height=8, fig.width=6}
+
+###across trials
+g1<-ggplot(df_trial,aes(x=currentTrial,y=scale(tpd_fore)))+stat_summary(fun.data = 'mean_se')+geom_smooth()+facet_wrap(~typeGame)+theme_bw()+ylab('BPS (z)')+xlab('')
+g2<-ggplot(df_trial,aes(x=currentTrial,y=scale(rpd_phasic)))+stat_summary(fun.data = 'mean_se')+geom_smooth()+facet_wrap(~typeGame)+theme_bw()+ylab('SEPR (z)')+coord_cartesian(ylim = c(-0.7, 0.6))+xlab('')
+g3<-ggplot(df_trial,aes(x=currentTrial,y=scale(rt_m)))+stat_summary(fun.data = 'mean_se')+geom_smooth()+facet_wrap(~typeGame)+theme_bw()+ylab('MRT (z)')+xlab('trial')
+
+grid.arrange(g1,g2,g3,nrow=3)
+
+```
+
+
+```{r supplementary_table_ADOS_ADI_scores, results='asis'}
+
+attach(df_describe)
+
+ados_si_m<-round(mean(ados_si,na.rm=T),2)
+ados_com_m<-round(mean(ados_com,na.rm=T),2)
+adi_com_m<-round(mean(adi_com,na.rm=T),2)
+adi_si_m<-round(mean(adi_si,na.rm=T),2)
+adi_rb_m<-round(mean(adi_rb,na.rm=T),2)
+
+ados_si_sd<-round(sd(ados_si,na.rm=T),2)
+ados_com_sd<-round(sd(ados_com,na.rm=T),2)
+adi_com_sd<-round(sd(adi_com,na.rm=T),2)
+adi_si_sd<-round(sd(adi_si,na.rm=T),2)
+adi_rb_sd<-round(sd(adi_rb,na.rm=T),2)
+
+detach(df_describe)
+
+
+ados_si<-paste(ados_si_m,ados_si_sd,sep='/')
+ados_com<-paste(ados_com_m,ados_com_sd,sep='/')
+adi_com<-paste(adi_com_m,adi_com_sd,sep='/')
+adi_si<-paste(adi_si_m,adi_si_sd,sep='/')
+adi_rb<-paste(adi_rb_m,adi_rb_sd,sep='/')
+
+ados_adi_table_data<-data.frame(rbind(ados_si,ados_com,adi_si,adi_com,adi_rb))
+
+row_labels<-c('ADOS   - social interaction',
+              'ADOS   - communication',
+              'ADI-R  - social interaction',
+              'ADI-R  - communication',
+              'ADI-R  - restricted/repetitive behavior')
+
+ados_adi_table_data<-data.frame(row_labels,ados_adi_table_data)
+
+apa_table(ados_adi_table_data, 
+          font_size = 'footnotesize',
+          row.names=F,
+          caption = 'ADOS and ADI total scores in the ASD group.',
+          col.names=c('','M/SD'),
+          note = "ASD = Autism Spectrum Disorder, ADOS = Autism Diagnostic Observation Schedule (40), ADI-R = Autism Diagnostic Interview - Revised (41)."
+)
+
+
+```
+
+```{r supplements_table_correlation, results='asis'}
+
+df_cor<-df_trial[,c('rpd_fore','rpd_phasic','rt_m','SRS_sum','INATT_sum','HYP_sum')]
+cor_matrix<-round(cor(df_cor,use = "complete.obs"),2) ##--> nothing outstanding
+cor_matrix[upper.tri(cor_matrix,diag=F)] <- '-'
+cor_matrix
+
+row_labels<-c('BPS',
+              'SEPR',
+              'MRT',
+              'SRS',
+              'ADHD inatt.',
+              'ADHD hyp.')
+
+correlation_data<-data.frame(row_labels,cor_matrix)
+
+apa_table(correlation_data, 
+          font_size = 'footnotesize',
+          row.names=F,
+          caption = 'Descriptive correlations of metric model parameters.',
+          col.names=c('','BPS','SEPR','MRT','SRS','ADHD inatt.','ADHD hyp.'),
+          note = "BPS = baseline pupil size, SEPR = stimulus-evoked pupillary response, MRT = mean reaction time, SRS = Social Responsiveness Scale sum score, ADHD inatt. = DSM-V ADHD rating scale - inattention subscale, ADHD hyp. = DSM-V ADHD rating scale - hyperactivity/impulsivity subscale. Correlation coefficients are based on the per-trial level."
+)
+
+```
+
 
 ```{r supplementary_table_RT_bygroup_secondary, results='asis'}
 
