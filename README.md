@@ -1,4 +1,4 @@
-# fasttask - data preprocessing and analysis of fasttask data in neurodevelopmental disorders
+# fasttask - data preprocessing and analysis of fasttask data in neurodevelopmental disorders - publication: https://doi.org/10.1016/j.bpsc.2021.04.010
 
 INFO: the FASTTASK is a speeded visuospatial cognitive task. We concurrently recorded eye-tracking data including pupillometry
 during the task with a Tobii X30.
